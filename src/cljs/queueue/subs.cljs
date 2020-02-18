@@ -6,3 +6,12 @@
  :name
  (fn [db]
    (:name db)))
+
+(re-frame/reg-sub
+ :queue
+ (fn [db]
+   (:queue db)))
+
+(re-frame/reg-sub
+  :db
+  (fn [db] db))

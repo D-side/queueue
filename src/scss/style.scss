@@ -1,5 +1,18 @@
 @charset "UTF-8";
 
-h1 {
-  text-decoration: underline;
+.debug > pre {
+    padding: 1em;
+    background-color: #333;
+    color: #ddd;
+}
+
+.name-input > input {
+    font-size: 2em;
+    font-style: italic;
+    width: 100%;
+}
+
+.the-button {
+    width: 100%;
+    font-size: 1.4em;
 }
