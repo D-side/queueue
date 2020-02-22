@@ -1,14 +1,14 @@
 (ns queueue.views
+  "Returns the given person's status string"
   (:require [re-frame.core :as re-frame]
             [cljs.pprint :as pprint]))
 
 (defn status
-  "Returns the given person's status string"
   [name queue]
   (let [[current & others] queue]
     (cond
       (empty? name)
-      "You might want to enter your name first"
+      "Enter your name first"
       (nil? current)
       "Is anyone here?"
       (= current name)
@@ -23,6 +23,8 @@
   [name queue]
   (let [[current & others] queue]
     (cond
+      (empty? name)
+      nil
       (= current name)
       "Done talking!"
       (some #(= % name) others)
@@ -39,9 +41,10 @@
 
 (defn the-button []
   (let [queue (re-frame/subscribe [:queue])
-        name (re-frame/subscribe [:name])]
+        name (re-frame/subscribe [:name])
+        act (action @name @queue)]
     ; TODO: make the magic happen
-    [:button {:class "the-button"} (action @name @queue)]))
+    (when act [:button {:class "the-button"} (action @name @queue)])))
 
 (defn queue []
   (let [queue (re-frame/subscribe [:queue])]
