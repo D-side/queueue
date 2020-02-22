@@ -5,7 +5,7 @@
             [system.components.endpoint :refer [new-endpoint]]
             [system.components.handler :refer [new-handler]]
             [system.components.middleware :refer [new-middleware]]
-            [system.components.jetty :refer [new-jetty]]
+            [system.components.aleph :refer [new-web-server]]
             [queueue.config :refer [config]]
             [queueue.routes :refer [home-routes]]))
 
@@ -15,7 +15,7 @@
    :middleware (new-middleware {:middleware (:middleware config)})
    :handler    (-> (new-handler)
                    (component/using [:routes :middleware]))
-   :http       (-> (new-jetty :port (:http-port config) :async? true)
+   :http       (-> (new-web-server (:http-port config))
                    (component/using [:handler]))
    :server-info (server-info (:http-port config))))
 
