@@ -4,7 +4,9 @@
             [compojure.route :refer [resources]]
             [ring.util.response :refer [response] :as resp]
             [manifold.stream :as stream]
-            [aleph.http :as http]))
+            [aleph.http :as http]
+            [clojure.data.json :as json]
+            [queueue.queue :as queue]))
 
 (defn home-routes [endpoint]
  (let [queue-atom (-> endpoint :queue :container)
@@ -24,4 +26,9 @@
         (swap! queue-atom identity))) ; no-op, to send out initial state
     (GET "/wipe" _ (do (reset! queue-atom []) "Wiped!"))
     (GET "/w00t" _ (do (swap! queue-atom conj "W00t") "Added!"))
+    (POST "/act" req
+      (let [data (-> req :body io/reader (json/read :key-fn keyword))
+            name (:name data)]
+        (swap! queue-atom queue/act name)
+        (response "")))
     (resources "/"))))

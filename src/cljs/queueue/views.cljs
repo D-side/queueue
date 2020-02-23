@@ -45,14 +45,16 @@
         name (re-frame/subscribe [:name])
         act (action @name @queue)]
     ; TODO: make the magic happen
-    (when act [:button {:class "the-button"} (action @name @queue)])))
+    (when act [:button {:class "the-button"
+                        :on-click #(re-frame/dispatch [:the-button-pressed])}
+                  (action @name @queue)])))
 
 (defn queue []
   (let [queue (re-frame/subscribe [:queue])
         name (re-frame/subscribe [:name])]
     (into [:ul]
           (for [person @queue]
-            [:li {:key person} 
+            [:li {:key person :on-click #(re-frame/dispatch [:name-changed person])} 
              (if (= @name person)
                 [:strong person]
                 person)]))))

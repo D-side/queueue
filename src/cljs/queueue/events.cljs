@@ -30,3 +30,11 @@
           js (.parse js/JSON json)
           clj (js->clj js)]
      (assoc db :queue clj))))
+
+(re-frame/reg-event-db
+  :the-button-pressed
+  (fn [db _]
+    (js/fetch "/act"
+      (clj->js {:method "POST"
+                :body (.stringify js/JSON (clj->js {:name (db :name)}))}))
+    db))
