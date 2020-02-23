@@ -1,6 +1,7 @@
 (ns queueue.components.shell-component
   (:require [com.stuartsierra.component :as component]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [clojure.java.shell]))
 
 (defrecord ShellComponent [command]
   component/Lifecycle

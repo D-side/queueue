@@ -20,7 +20,8 @@
                  [re-frame "0.10.6"]
                  [akiroz.re-frame/storage "0.1.4"]
                  [aleph "0.4.6"]
-                 [org.clojure/data.json "1.0.0"]]
+                 [org.clojure/data.json "1.0.0"]
+                 [org.clojure/core.async "1.0.567"]]
 
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-environ "1.1.0"]
@@ -78,18 +79,18 @@
   ;; stanza, but it will read it without passing through leiningen's profile
   ;; merging. So don't put a :figwheel section under the :dev profile, it will
   ;; not be picked up, instead configure figwheel here on the top level.
-
+  
   :figwheel {;; :http-server-root "public"       ;; serve static assets from resources/public/
              ;; :server-port 3449                ;; default
              ;; :server-ip "127.0.0.1"           ;; default
              :css-dirs ["resources/public/css"]  ;; watch and update CSS
-
+             
              ;; Start an nREPL server into the running figwheel process. We
              ;; don't do this, instead we do the opposite, running figwheel from
              ;; an nREPL process, see
              ;; https://github.com/bhauman/lein-figwheel/wiki/Using-the-Figwheel-REPL-within-NRepl
              ;; :nrepl-port 7888
-
+             
              ;; To be able to open files in your editor from the heads up display
              ;; you will need to put a script on your path.
              ;; that script will have to take a file path and a line number
@@ -98,7 +99,7 @@
              ;; emacsclient -n +$2 $1
              ;;
              ;; :open-file-command "myfile-opener"
-
+             
              :server-logfile "log/figwheel.log"}
 
   :doo {:build "test"}
