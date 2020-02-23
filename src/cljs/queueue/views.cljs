@@ -1,7 +1,8 @@
 (ns queueue.views
   "Returns the given person's status string"
   (:require [re-frame.core :as re-frame]
-            [cljs.pprint :as pprint]))
+            [cljs.pprint :as pprint]
+            [queueue.config :refer [debug?]]))
 
 (defn status
   [name queue]
@@ -47,8 +48,14 @@
     (when act [:button {:class "the-button"} (action @name @queue)])))
 
 (defn queue []
-  (let [queue (re-frame/subscribe [:queue])]
-    (into [:ul] (for [person @queue] [:li {:key person} person]))))
+  (let [queue (re-frame/subscribe [:queue])
+        name (re-frame/subscribe [:name])]
+    (into [:ul]
+          (for [person @queue]
+            [:li {:key person} 
+             (if (= @name person)
+                [:strong person]
+                person)]))))
 
 (defn name-input []
   (let [name (re-frame/subscribe [:name])]
@@ -58,7 +65,7 @@
               :on-change #(re-frame/dispatch [:name-changed (-> % .-target .-value)])}]]))
 
 (defn debug-display []
-  (when js/goog.DEBUG
+  (when debug?
     [:div {:class "debug"}
       [:hr]
       [:h3 "Debugging: app state"]

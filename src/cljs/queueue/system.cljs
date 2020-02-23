@@ -1,12 +1,14 @@
 (ns queueue.system
   (:require [com.stuartsierra.component :as component]
-            [queueue.components.ui :refer [new-ui-component]]))
+            [queueue.components.ui :refer [new-ui-component]]
+            [queueue.components.websocket :refer [new-websocket]]))
 
 (declare system)
 
 (defn new-system []
   (component/system-map
-   :app-root (new-ui-component)))
+   :app-root (new-ui-component)
+   :websocket (new-websocket)))
 
 (defn init []
   (set! system (new-system)))

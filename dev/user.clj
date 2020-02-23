@@ -42,3 +42,9 @@
 (defn browser-repl []
   (println "(browser-repl) is deprecated, use (cljs-repl)")
   (cljs-repl))
+
+(comment
+  (let [queue-atom (get-in system [:queue :container])
+        ws-conns   (get-in system [:websockets :pool])]
+    (count @ws-conns))) ; active WS connections
+  

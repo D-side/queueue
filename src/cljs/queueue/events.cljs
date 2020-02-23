@@ -21,3 +21,12 @@
          db (:db cofx)] 
      {:db (assoc db :name new-name)
       :save-name new-name})))
+
+;; TODO: Convert this into fx/cofx setup
+(re-frame/reg-event-db
+  :ws-message
+  (fn [db [_ msg]]
+    (let [json (.-data msg)
+          js (.parse js/JSON json)
+          clj (js->clj js)]
+     (assoc db :queue clj))))

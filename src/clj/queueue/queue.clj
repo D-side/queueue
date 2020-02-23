@@ -7,22 +7,16 @@ acted upon by the person with a given name"
   (cond
     (some #{name} queue)
     (into [] (remove #{name} queue))
-    (not-any? #(= % name) queue)
-    (conj queue name)
     :else
-    :DAFUQ))
+    (conj queue name)))
 
-(defn one-mere-question
+(defn advance
   "Adds/advances the given name to the 2nd
 place in the queue, if possible"
-  [queue name])
-
-(comment
-  ; Some dumb tests
-  (-> []
-      (act "1")
-      (act "2")
-      (act "1")
-      (act "1"))
-
-  (reductions act [] ["1" "2" "1"]))
+  [queue name]
+  (if (= name (first queue))
+    queue
+    (let [[head & tail] (remove #{name} queue)]
+      (if head
+        (into [head name] tail)
+        [name]))))
